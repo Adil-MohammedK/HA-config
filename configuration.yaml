@@ -1,0 +1,158 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+
+emulated_hue:
+  type: alexa
+  host_ip: 192.168.1.40
+  listen_port: 80
+  expose_by_default: true
+  exposed_domains:
+    - light
+
+switch:
+  - platform: mqtt
+    command_topic: 'car/power'
+    name: 'Motor Power'
+
+light:
+  - platform: mqtt
+    command_topic: 'office/rgb1/light/switch'
+    
+  - platform: mqtt
+    name: "Steering"
+    command_topic: "car/steering/state"
+    brightness_state_topic: "car/steering/value"
+    state_topic: "car/steering/status"
+    payload_off: "OFF"
+    brightness_command_topic: 'car/steering/value/set'
+    on_command_type: 'brightness'
+
+sensor:
+  - platform: command_line
+    name: CPU Temp
+    command: 'cat /sys/class/thermal/thermal_zone0/temp'
+    unit_of_measurement: '°C'
+    value_template: '{{ value | multiply(0.001) | round(0) }}'
+
+  - platform: mqtt
+    state_topic: 'car/bat_level'
+    name: 'Battery Level'
+    unit_of_measurement: '%'
+    device_class: battery
+
+  - platform: mqtt
+    state_topic: 'car/bat_charging'
+    name: 'Battery Charging'
+
+  - platform: mqtt
+    state_topic: 'car/bat_health'
+    name: 'Battery Health'
+    unit_of_measurement: '%'
+    device_class: battery
+
+  - platform: mqtt
+    state_topic: 'car/bat_charging_rate'
+    name: 'Charging Rate'
+    device_class: power
+    unit_of_measurement: 'kW'
+
+  - platform: mqtt
+    state_topic: 'car/power_use'
+    name: 'Power Use'
+    device_class: power
+    unit_of_measurement: 'kW'
+
+  - platform: mqtt
+    state_topic: 'car/throttle_pos'
+    name: 'Throttle Position'
+    unit_of_measurement: '%'
+
+  - platform: mqtt
+    state_topic: 'car/speed'
+    name: 'Vehicle Speed'
+    unit_of_measurement: 'Km/Hr'
+
+  - platform: mqtt
+    state_topic: 'car/totalKM'
+    name: 'Total KM Driven'
+    unit_of_measurement: 'Km'
+
+  - platform: mqtt
+    state_topic: 'car/bat_range'
+    name: 'Vehicle Range'
+    unit_of_measurement: 'Km'
+
+  - platform: mqtt
+    state_topic: 'car/DMS/conscious'
+    name: 'Driver Conscious Level'
+    unit_of_measurement: '%'
+
+  - platform: mqtt
+    state_topic: 'car/DMS/steer_press'
+    name: 'Steerign Wheel Pressure'
+    unit_of_measurement: 'Pa'
+
+  - platform: mqtt
+    state_topic: 'car/temperature/outside'
+    name: 'Outside Temperature'
+    device_class: temperature
+    # unit_of_measurement:
+
+  - platform: mqtt
+    state_topic: 'car/temperature/inside'
+    name: 'Cabin Temperature'
+    device_class: temperature
+
+  - platform: mqtt
+    state_topic: 'car/lidar/status'
+    name: 'Lidar Status'
+
+  - platform: mqtt
+    state_topic: 'car/remote/status'
+    name: 'Remote Control Status'
+
+  - platform: mqtt
+    state_topic: 'car/camera1/status'
+    name: 'Camera1 Status'
+
+  - platform: mqtt
+    state_topic: 'car/GPS/status'
+    name: 'GPS Status'
+
+  - platform: mqtt
+    state_topic: 'car/IMU/status'
+    name: 'IMU Status'
+
+influxdb:
+  host: 192.168.1.40
+  port: 8086
+  include:
+    domains:
+      - sensor
+      - switch
+  max_retries: 3
+  default_measurement: state
+
+# Example configuration.yaml entry using 'input_number' in an action in an automation
+input_number:
+  target_temp:
+    name: Target Heater Temperature Slider
+    min: 1
+    max: 30
+    step: 1
+    unit_of_measurement: step
+    icon: mdi:target
+
