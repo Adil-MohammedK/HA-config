@@ -1,0 +1,507 @@
+{
+    "version": 1,
+    "key": "lovelace",
+    "data": {
+        "config": {
+            "resources": [
+                {
+                    "url": "https://fonts.googleapis.com/css?family=Raleway",
+                    "type": "css"
+                }
+            ],
+            "animated_background": {
+                "default_url": "https://media.ed.edmunds-media.com/tesla/model-s/2019/oem/2019_tesla_model-s_sedan_performance_fq_oem_3_1600.jpg",
+                "button_icons": {
+                    "menu": "mdi:skull",
+                    "voice": "mdi:home",
+                    "options": "mdi:death-star-variant"
+                }
+            },
+            "title": "Home",
+            "custom_header": {
+                "compact_mode": true
+            },
+            "views": [
+                {
+                    "badges": [
+                        {
+                            "entity": "binary_sensor.updater"
+                        },
+                        {
+                            "entity": "person.adilpi"
+                        },
+                        {
+                            "entity": "sun.sun"
+                        }
+                    ],
+                    "cards": [
+                        {
+                            "entity": "weather.home",
+                            "type": "weather-forecast"
+                        },
+                        {
+                            "entity": "sensor.cpu_temp",
+                            "type": "entity"
+                        },
+                        {
+                            "entity": "light.4157153250029157c212",
+                            "type": "light"
+                        },
+                        {
+                            "type": "button",
+                            "tap_action": {
+                                "action": "toggle"
+                            },
+                            "entity": "switch.relay",
+                            "show_state": false
+                        },
+                        {
+                            "type": "light",
+                            "entity": "light.61730203ecfabc5b7d95"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "binary_sensor.living_room_window"
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "binary_sensor.rpi_power_status"
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.pi_hole_ads_blocked_today",
+                                "sensor.pi_hole_ads_percentage_blocked_today"
+                            ]
+                        }
+                    ],
+                    "path": "default_view",
+                    "title": "Home"
+                },
+                {
+                    "title": "Abhiyaan",
+                    "path": "abhiyaan",
+                    "icon": "",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.fajr_prayer",
+                                "sensor.dhuhr_prayer",
+                                "sensor.asr_prayer",
+                                "sensor.maghrib_prayer",
+                                "sensor.isha_prayer"
+                            ]
+                        },
+                        {
+                            "type": "media-control",
+                            "entity": "media_player.plex_plex_for_samsung_tv_ua40j5500"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.plex_adilpi"
+                            ]
+                        },
+                        {
+                            "type": "media-control",
+                            "entity": "media_player.plex_plex_web_microsoft_edge_2"
+                        },
+                        {
+                            "type": "media-control",
+                            "entity": "media_player.plex_plex_web_microsoft_edge_windows"
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:battery",
+                    "panel": false,
+                    "title": "",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "custom:bar-card",
+                            "name": "Battery Level",
+                            "entities": [
+                                {
+                                    "entity": "sensor.battery_level"
+                                }
+                            ],
+                            "severity": [
+                                {
+                                    "color": "Red",
+                                    "to": "25",
+                                    "from": "0"
+                                },
+                                {
+                                    "color": "Orange",
+                                    "from": "26",
+                                    "to": "50"
+                                },
+                                {
+                                    "color": "Green",
+                                    "from": "51",
+                                    "to": "100"
+                                }
+                            ],
+                            "state": "on",
+                            "animation": {
+                                "state": "off",
+                                "speed": "5"
+                            },
+                            "unit_of_measurement": "%",
+                            "icon": "mdi:battery",
+                            "direction": "right"
+                        },
+                        {
+                            "type": "entity",
+                            "entity": "sensor.battery_charging",
+                            "name": "Battery Charging"
+                        },
+                        {
+                            "type": "custom:bar-card",
+                            "entities": [
+                                {
+                                    "entity": "sensor.battery_health"
+                                }
+                            ],
+                            "icon": "mdi:battery",
+                            "unit_of_measurement": "%",
+                            "severity": [
+                                {
+                                    "color": "Red",
+                                    "from": 0,
+                                    "to": 30
+                                },
+                                {
+                                    "color": "Orange",
+                                    "from": 30,
+                                    "to": 60
+                                },
+                                {
+                                    "color": "Green",
+                                    "from": 60,
+                                    "to": 100
+                                }
+                            ]
+                        },
+                        {
+                            "type": "gauge",
+                            "entity": "sensor.vehicle_range",
+                            "min": 0,
+                            "max": 400,
+                            "name": "Range",
+                            "unit": "KM"
+                        },
+                        {
+                            "type": "custom:power-wheel-card",
+                            "title": "Power wheel",
+                            "solar_power_entity": "sensor.charging_rate",
+                            "grid_power_entity": "sensor.power_use",
+                            "debug": false,
+                            "solar_icon": "mdi:battery",
+                            "home_icon": "mdi:car"
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:car",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "custom:mini-graph-card",
+                            "name": "Temperature",
+                            "points_per_hour": 60,
+                            "icon": "mdi:battery",
+                            "entities": [
+                                {
+                                    "entity": "sensor.cabin_temperature",
+                                    "name": "Inside"
+                                },
+                                {
+                                    "entity": "sensor.outside_temperature",
+                                    "name": "Outside"
+                                }
+                            ],
+                            "line_color": "blue",
+                            "hours_to_show": 1
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.total_km_driven"
+                            ]
+                        },
+                        {
+                            "entity": "weather.home",
+                            "type": "weather-forecast"
+                        },
+                        {
+                            "type": "custom:mini-media-player",
+                            "entity": "media_player.adil_s_echo_dot",
+                            "artwork": "cover"
+                        },
+                        {
+                            "type": "custom:dual-gauge-card",
+                            "cardwidth": 400,
+                            "outer": {
+                                "entity": "sensor.vehicle_speed",
+                                "label": "Speed",
+                                "unit": "kmph",
+                                "min": 0,
+                                "max": 320,
+                                "colors": [
+                                    {
+                                        "color": "var(--label-badge-green)",
+                                        "value": 0
+                                    },
+                                    {
+                                        "color": "var(--label-badge-yellow)",
+                                        "value": 200
+                                    },
+                                    {
+                                        "color": "var(--label-badge-red)",
+                                        "value": 300
+                                    }
+                                ]
+                            },
+                            "inner": {
+                                "entity": "sensor.throttle_position",
+                                "min": 0,
+                                "max": 100,
+                                "colors": [
+                                    {
+                                        "color": "var(--label-badge-green)",
+                                        "value": 0
+                                    },
+                                    {
+                                        "color": "var(--label-badge-yellow)",
+                                        "value": 50
+                                    },
+                                    {
+                                        "color": "var(--label-badge-blue)",
+                                        "value": 75
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:car",
+                    "panel": true,
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "custom:layout-card",
+                            "layout": "vertical",
+                            "column_width": [
+                                "25%",
+                                "45%",
+                                "30%"
+                            ],
+                            "cards": [
+                                {
+                                    "type": "entities",
+                                    "entities": [
+                                        "sensor.outside_temperature",
+                                        "sensor.cabin_temperature"
+                                    ]
+                                },
+                                {
+                                    "type": "entities",
+                                    "entities": [
+                                        "sensor.total_km_driven"
+                                    ]
+                                },
+                                "break",
+                                {
+                                    "type": "custom:dual-gauge-card",
+                                    "cardwidth": 450,
+                                    "outer": {
+                                        "entity": "sensor.vehicle_speed",
+                                        "label": "kmph",
+                                        "min": 0,
+                                        "max": 320,
+                                        "colors": [
+                                            {
+                                                "color": "var(--label-badge-green)",
+                                                "value": 0
+                                            },
+                                            {
+                                                "color": "var(--label-badge-yellow)",
+                                                "value": 200
+                                            },
+                                            {
+                                                "color": "var(--label-badge-red)",
+                                                "value": 300
+                                            }
+                                        ]
+                                    },
+                                    "inner": {
+                                        "entity": "sensor.throttle_position",
+                                        "label": "Throttle",
+                                        "min": 0,
+                                        "max": 100,
+                                        "colors": [
+                                            {
+                                                "color": "var(--label-badge-green)",
+                                                "value": 0
+                                            },
+                                            {
+                                                "color": "var(--label-badge-yellow)",
+                                                "value": 50
+                                            },
+                                            {
+                                                "color": "var(--label-badge-blue)",
+                                                "value": 75
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "map",
+                                    "entities": [
+                                        "device_tracker.adils_iphone"
+                                    ],
+                                    "hours_to_show": 0,
+                                    "dark_mode": false,
+                                    "aspect_ratio": "4:2"
+                                },
+                                "break",
+                                {
+                                    "entity": "weather.home",
+                                    "type": "weather-forecast"
+                                },
+                                {
+                                    "type": "custom:mini-media-player",
+                                    "entity": "media_player.adil_s_echo_dot",
+                                    "artwork": "cover"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:robot",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "switch.lidar_power"
+                            ]
+                        },
+                        {
+                            "type": "custom:button-card",
+                            "color_type": "card",
+                            "entity": "switch.motor_power",
+                            "name": "Emergency Off",
+                            "state": [
+                                {
+                                    "value": "on",
+                                    "color": "red",
+                                    "icon": "mdi:alert",
+                                    "styles": {
+                                        "card": [
+                                            {
+                                                "animation": "blink 1s ease infinite"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "operator": "default",
+                                    "color": "green",
+                                    "icon": "mdi:shield-check"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.lidar_status"
+                            ],
+                            "state_color": true,
+                            "icon": "mdi:radar"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.remote_control_status"
+                            ],
+                            "icon": "mdi:remote"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.camera1_status"
+                            ],
+                            "icon": "mdi:camera"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.gps_status"
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.imu_status"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:camera",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "iframe",
+                            "url": "http://adilpi.local:3000/d-solo/kdtQKNzgk/new-dashboard?orgId=1&kiosk&panelId=2&refresh10s&kiosk&fullscreen"
+                        }
+                    ]
+                },
+                {
+                    "title": "ESP test",
+                    "path": "esp-test",
+                    "icon": "",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "switch.living_room_switch_1",
+                                "switch.living_room_switch_2",
+                                "switch.living_room_switch_3",
+                                "switch.living_room_switch_4"
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "binary_sensor.living_room_window_2"
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.plex_adilpi"
+                            ]
+                        },
+                        {
+                            "type": "media-control",
+                            "entity": "media_player.plex_plex_for_samsung_tv_ua40j5500"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
