@@ -1,0 +1,153 @@
+esphome:
+  name: living-node
+  platform: ESP8266
+  board: nodemcuv2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: !secret living-ota
+
+wifi:
+  ssid: !secret wifi-name
+  password: !secret wifi-pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Living-Node Fallback Hotspot"
+    password: !secret living-fallback
+  
+  manual_ip:
+    # Set this to the IP of the ESP
+    static_ip: 192.168.1.44
+    # Set this to the IP address of the router. Often ends with .1
+    gateway: 192.168.1.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    subnet: 255.255.255.0
+
+captive_portal:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: D3
+      mode: INPUT_PULLUP
+      inverted: true
+    id: button_1
+    filters:
+      - delayed_on_off: 200ms
+    on_state:
+      then:
+        - if:
+            condition:
+      # Same syntax for is_off
+              binary_sensor.is_on: button_1
+            then:
+              - light.turn_on: light_2
+            else:
+              - light.turn_off: light_2
+
+  - platform: gpio
+    pin:
+      number: D4
+      mode: INPUT_PULLUP
+      inverted: true
+    id: button_2
+    filters:
+      - delayed_on_off: 200ms
+    on_state:
+      then:
+        - if:
+            condition:
+      # Same syntax for is_off
+              binary_sensor.is_on: button_2
+            then:
+              - light.turn_on: light_1
+              - delay: 2s
+            else:
+              - light.turn_off: light_1
+              - delay: 2s
+
+  - platform: gpio
+    pin:
+      number: D5
+      mode: INPUT_PULLUP
+      inverted: true
+    id: button_3
+    filters:
+      - delayed_on_off: 200ms
+    on_state:
+      then:
+        - if:
+            condition:
+      # Same syntax for is_off
+              binary_sensor.is_on: button_3
+            then:
+              - light.turn_on: light_3
+            else:
+              - light.turn_off: light_3
+              
+  - platform: gpio
+    pin:
+      number: D6
+      mode: INPUT_PULLUP
+      inverted: true
+    id: button_4
+    filters:
+      - delayed_on_off: 200ms
+    on_state:
+      then:
+        - if:
+            condition:
+      # Same syntax for is_off
+              binary_sensor.is_on: button_4
+            then:
+              - light.turn_on: light_4
+            else:
+              - light.turn_off: light_4
+
+  - platform: status
+    name: "T3 Status"
+
+output:
+  - platform: gpio
+    pin: D2
+    id: relay_1
+
+  - platform: gpio
+    pin: D1
+    id: relay_2
+
+  - platform: gpio
+    pin: D7
+    id: relay_3
+    
+  - platform: gpio
+    pin: D8
+    id: relay_4
+
+light:
+  - platform: binary
+    name: "Hall Light"
+    id: light_1
+    output: relay_1
+
+  - platform: binary
+    name: "Hall L2"
+    id: light_2
+    output: relay_2
+
+  - platform: binary
+    name: "Porch Light"
+    id: light_3
+    output: relay_3
+    
+  - platform: binary
+    name: "T3 L4"
+    id: light_4
+    output: relay_4
+
